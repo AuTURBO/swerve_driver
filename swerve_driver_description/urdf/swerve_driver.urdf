@@ -1,0 +1,462 @@
+<?xml version="1.0" ?>
+<robot name="swerve_driver" xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller" xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface" xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <link name="base_link">
+    <visual>
+      <origin xyz="0.0 0.0 0.0615" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.138 0.138 0.001"/>
+        <!-- <mesh filename="package://swerve_driver_description/mesh/burger_base.stl" scale="0.001 0.001 0.001"/> -->
+      </geometry>
+      <material name="light_black"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.138 0.138 0.001"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="8.2573504e-01"/>
+      <inertia ixx="2.2124416e-03" ixy="-1.2294101e-05" ixz="3.4938785e-05"
+               iyy="2.1193702e-03" iyz="-5.0120904e-06"
+               izz="2.0064271e-03" />
+    </inertial>
+  </link>
+
+  <joint name="l_r_base_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="l_r_xl430_steer"/>
+    <origin xyz="0.078 0.078 0.0435"/>
+  </joint>
+  <link name="l_r_xl430_steer">
+    <visual>
+      <origin rpy="0 3.14159265359 -0.78539816339" xyz="0 0 0.018"/>
+      <geometry>
+        <mesh filename="package://swerve_driver_description/mesh/XL430.dae"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin rpy="0 3.14159265359 3.14159265359" xyz="0 0 0.018"/>
+      <geometry>
+        <mesh filename="package://swerve_driver_description/mesh/XL430.dae"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="8.2573504e-01"/>
+      <inertia ixx="2.2124416e-03" ixy="-1.2294101e-05" ixz="3.4938785e-05"
+               iyy="2.1193702e-03" iyz="-5.0120904e-06"
+               izz="2.0064271e-03" />
+    </inertial>
+  </link>
+  <joint name="l_r_steer" type="revolute">
+    <parent link="l_r_xl430_steer"/>
+    <child link="l_r_bracket"/>
+    <origin rpy="0 0 -0.78539816339" xyz="0 -0.0003 -0.0435"/>
+    <axis xyz="0 0 -1"/>
+    <limit effort="300" lower="-1.57" upper="1.57" velocity="0.1"/>
+  </joint>
+  <link name="l_r_bracket">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 -0.001 0"/>
+      <geometry>
+        <mesh filename="package://swerve_driver_description/mesh/XL430_BRACKET.dae"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 -0.001 0"/>
+      <geometry>
+        <mesh filename="package://swerve_driver_description/mesh/XL430_BRACKET.dae"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="8.2573504e-01"/>
+      <inertia ixx="2.2124416e-03" ixy="-1.2294101e-05" ixz="3.4938785e-05"
+               iyy="2.1193702e-03" iyz="-5.0120904e-06"
+               izz="2.0064271e-03" />
+    </inertial>
+  </link>
+  <joint name="l_r_bracket2drive" type="fixed">
+    <parent link="l_r_bracket"/>
+    <child link="l_r_xl430_drive"/>
+    <origin xyz="0 0 0"/>
+    <axis xyz="0 1 0"/>
+  </joint>
+  <link name="l_r_xl430_drive">
+    <visual>
+      <origin rpy="1.57079632679 3.14159265359 0" xyz="0 0.018 0.0"/>
+      <geometry>
+        <mesh filename="package://swerve_driver_description/mesh/XL430.dae"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin rpy="1.57079632679 3.14159265359 0" xyz="0 0.018 0.0"/>
+      <geometry>
+        <mesh filename="package://swerve_driver_description/mesh/XL430.dae"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="8.2573504e-01"/>
+      <inertia ixx="2.2124416e-03" ixy="-1.2294101e-05" ixz="3.4938785e-05"
+               iyy="2.1193702e-03" iyz="-5.0120904e-06"
+               izz="2.0064271e-03" />
+    </inertial>
+  </link>
+  <joint name="l_r_drive" type="continuous">
+    <parent link="l_r_xl430_drive"/>
+    <child link="l_r_wheel"/>
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <axis xyz="0 -1 0"/>
+  </joint>
+  <link name="l_r_wheel">
+    <visual>
+      <origin rpy="0 0 3.14159265359" xyz="0 -0.01 0"/>
+      <geometry>
+        <mesh filename="package://swerve_driver_description/mesh/TB3_WHEEL.dae"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin rpy="0 0 3.14159265359" xyz="0 -0.01 0"/>
+      <geometry>
+        <mesh filename="package://swerve_driver_description/mesh/TB3_WHEEL.dae"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="8.2573504e-01"/>
+      <inertia ixx="2.2124416e-03" ixy="-1.2294101e-05" ixz="3.4938785e-05"
+               iyy="2.1193702e-03" iyz="-5.0120904e-06"
+               izz="2.0064271e-03" />
+    </inertial>
+  </link>
+
+  <joint name="r_r_base_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="r_r_xl430_steer"/>
+    <origin xyz="-0.078 0.078 0.0435"/>
+  </joint>
+  <link name="r_r_xl430_steer">
+    <visual>
+      <origin rpy="0 3.14159265359 0.78539816339" xyz="0 0 0.018"/>
+      <geometry>
+        <mesh filename="package://swerve_driver_description/mesh/XL430.dae"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin rpy="0 3.14159265359 3.14159265359" xyz="0 0 0.018"/>
+      <geometry>
+        <mesh filename="package://swerve_driver_description/mesh/XL430.dae"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="8.2573504e-01"/>
+      <inertia ixx="2.2124416e-03" ixy="-1.2294101e-05" ixz="3.4938785e-05"
+               iyy="2.1193702e-03" iyz="-5.0120904e-06"
+               izz="2.0064271e-03" />
+    </inertial>
+  </link>
+  <joint name="r_r_steer" type="revolute">
+    <parent link="r_r_xl430_steer"/>
+    <child link="r_r_bracket"/>
+    <origin rpy="0 0 0.78539816339" xyz="0 -0.0003 -0.0435"/>
+    <axis xyz="0 0 -1"/>
+    <limit effort="300" lower="-1.57" upper="1.57" velocity="0.1"/>
+  </joint>
+  <link name="r_r_bracket">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 -0.001 0"/>
+      <geometry>
+        <mesh filename="package://swerve_driver_description/mesh/XL430_BRACKET.dae"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 -0.001 0"/>
+      <geometry>
+        <mesh filename="package://swerve_driver_description/mesh/XL430_BRACKET.dae"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="8.2573504e-01"/>
+      <inertia ixx="2.2124416e-03" ixy="-1.2294101e-05" ixz="3.4938785e-05"
+               iyy="2.1193702e-03" iyz="-5.0120904e-06"
+               izz="2.0064271e-03" />
+    </inertial>
+  </link>
+  <joint name="r_r_bracket2drive" type="fixed">
+    <parent link="r_r_bracket"/>
+    <child link="r_r_xl430_drive"/>
+    <origin xyz="0 0 0"/>
+    <axis xyz="0 1 0"/>
+  </joint>
+  <link name="r_r_xl430_drive">
+    <visual>
+      <origin rpy="1.57079632679 3.14159265359 0" xyz="0 0.018 0.0"/>
+      <geometry>
+        <mesh filename="package://swerve_driver_description/mesh/XL430.dae"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin rpy="1.57079632679 3.14159265359 0" xyz="0 0.018 0.0"/>
+      <geometry>
+        <mesh filename="package://swerve_driver_description/mesh/XL430.dae"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="8.2573504e-01"/>
+      <inertia ixx="2.2124416e-03" ixy="-1.2294101e-05" ixz="3.4938785e-05"
+               iyy="2.1193702e-03" iyz="-5.0120904e-06"
+               izz="2.0064271e-03" />
+    </inertial>
+  </link>
+  <joint name="r_r_drive" type="continuous">
+    <parent link="r_r_xl430_drive"/>
+    <child link="r_r_wheel"/>
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <axis xyz="0 -1 0"/>
+  </joint>
+  <link name="r_r_wheel">
+    <visual>
+      <origin rpy="0 0 3.14159265359" xyz="0 -0.01 0"/>
+      <geometry>
+        <mesh filename="package://swerve_driver_description/mesh/TB3_WHEEL.dae"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin rpy="0 0 3.14159265359" xyz="0 -0.01 0"/>
+      <geometry>
+        <mesh filename="package://swerve_driver_description/mesh/TB3_WHEEL.dae"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="8.2573504e-01"/>
+      <inertia ixx="2.2124416e-03" ixy="-1.2294101e-05" ixz="3.4938785e-05"
+               iyy="2.1193702e-03" iyz="-5.0120904e-06"
+               izz="2.0064271e-03" />
+    </inertial>
+  </link>
+
+  <joint name="l_f_base_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="l_f_xl430_steer"/>
+    <origin xyz="0.078 -0.078 0.0435"/>
+  </joint>
+  <link name="l_f_xl430_steer">
+    <visual>
+      <origin rpy="0 3.14159265359 -2.35619449019" xyz="0 0 0.018"/>
+      <geometry>
+        <mesh filename="package://swerve_driver_description/mesh/XL430.dae"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin rpy="0 3.14159265359 3.14159265359" xyz="0 0 0.018"/>
+      <geometry>
+        <mesh filename="package://swerve_driver_description/mesh/XL430.dae"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="8.2573504e-01"/>
+      <inertia ixx="2.2124416e-03" ixy="-1.2294101e-05" ixz="3.4938785e-05"
+               iyy="2.1193702e-03" iyz="-5.0120904e-06"
+               izz="2.0064271e-03" />
+    </inertial>
+  </link>
+  <joint name="l_f_steer" type="revolute">
+    <parent link="l_f_xl430_steer"/>
+    <child link="l_f_bracket"/>
+    <origin rpy="0 0 -2.35619449019" xyz="0 -0.0003 -0.0435"/>
+    <axis xyz="0 0 -1"/>
+    <limit effort="300" lower="-1.57" upper="1.57" velocity="0.1"/>
+  </joint>
+  <link name="l_f_bracket">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 -0.001 0"/>
+      <geometry>
+        <mesh filename="package://swerve_driver_description/mesh/XL430_BRACKET.dae"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 -0.001 0"/>
+      <geometry>
+        <mesh filename="package://swerve_driver_description/mesh/XL430_BRACKET.dae"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="8.2573504e-01"/>
+      <inertia ixx="2.2124416e-03" ixy="-1.2294101e-05" ixz="3.4938785e-05"
+               iyy="2.1193702e-03" iyz="-5.0120904e-06"
+               izz="2.0064271e-03" />
+    </inertial>
+  </link>
+  <joint name="l_f_bracket2drive" type="fixed">
+    <parent link="l_f_bracket"/>
+    <child link="l_f_xl430_drive"/>
+    <origin xyz="0 0 0"/>
+    <axis xyz="0 1 0"/>
+  </joint>
+  <link name="l_f_xl430_drive">
+    <visual>
+      <origin rpy="1.57079632679 3.14159265359 0" xyz="0 0.018 0.0"/>
+      <geometry>
+        <mesh filename="package://swerve_driver_description/mesh/XL430.dae"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin rpy="1.57079632679 3.14159265359 0" xyz="0 0.018 0.0"/>
+      <geometry>
+        <mesh filename="package://swerve_driver_description/mesh/XL430.dae"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="8.2573504e-01"/>
+      <inertia ixx="2.2124416e-03" ixy="-1.2294101e-05" ixz="3.4938785e-05"
+               iyy="2.1193702e-03" iyz="-5.0120904e-06"
+               izz="2.0064271e-03" />
+    </inertial>
+  </link>
+  <joint name="l_f_drive" type="continuous">
+    <parent link="l_f_xl430_drive"/>
+    <child link="l_f_wheel"/>
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <axis xyz="0 -1 0"/>
+  </joint>
+  <link name="l_f_wheel">
+    <visual>
+      <origin rpy="0 0 3.14159265359" xyz="0 -0.01 0"/>
+      <geometry>
+        <mesh filename="package://swerve_driver_description/mesh/TB3_WHEEL.dae"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin rpy="0 0 3.14159265359" xyz="0 -0.01 0"/>
+      <geometry>
+        <mesh filename="package://swerve_driver_description/mesh/TB3_WHEEL.dae"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="8.2573504e-01"/>
+      <inertia ixx="2.2124416e-03" ixy="-1.2294101e-05" ixz="3.4938785e-05"
+               iyy="2.1193702e-03" iyz="-5.0120904e-06"
+               izz="2.0064271e-03" />
+    </inertial>
+  </link>
+
+  <joint name="r_f_base_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="r_f_xl430_steer"/>
+    <origin xyz="-0.078 -0.078 0.0435"/>
+  </joint>
+  <link name="r_f_xl430_steer">
+    <visual>
+      <origin rpy="0 3.14159265359 2.35619449019" xyz="0 0 0.018"/>
+      <geometry>
+        <mesh filename="package://swerve_driver_description/mesh/XL430.dae"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin rpy="0 3.14159265359 3.14159265359" xyz="0 0 0.018"/>
+      <geometry>
+        <mesh filename="package://swerve_driver_description/mesh/XL430.dae"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="8.2573504e-01"/>
+      <inertia ixx="2.2124416e-03" ixy="-1.2294101e-05" ixz="3.4938785e-05"
+               iyy="2.1193702e-03" iyz="-5.0120904e-06"
+               izz="2.0064271e-03" />
+    </inertial>
+  </link>
+  <joint name="r_f_steer" type="revolute">
+    <parent link="r_f_xl430_steer"/>
+    <child link="r_f_bracket"/>
+    <origin rpy="0 0 2.35619449019" xyz="0 -0.0003 -0.0435"/>
+    <axis xyz="0 0 -1"/>
+    <limit effort="300" lower="-1.57" upper="1.57" velocity="0.1"/>
+  </joint>
+  <link name="r_f_bracket">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 -0.001 0"/>
+      <geometry>
+        <mesh filename="package://swerve_driver_description/mesh/XL430_BRACKET.dae"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 -0.001 0"/>
+      <geometry>
+        <mesh filename="package://swerve_driver_description/mesh/XL430_BRACKET.dae"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="8.2573504e-01"/>
+      <inertia ixx="2.2124416e-03" ixy="-1.2294101e-05" ixz="3.4938785e-05"
+               iyy="2.1193702e-03" iyz="-5.0120904e-06"
+               izz="2.0064271e-03" />
+    </inertial>
+  </link>
+  <joint name="r_f_bracket2drive" type="fixed">
+    <parent link="r_f_bracket"/>
+    <child link="r_f_xl430_drive"/>
+    <origin xyz="0 0 0"/>
+    <axis xyz="0 1 0"/>
+  </joint>
+  <link name="r_f_xl430_drive">
+    <visual>
+      <origin rpy="1.57079632679 3.14159265359 0" xyz="0 0.018 0.0"/>
+      <geometry>
+        <mesh filename="package://swerve_driver_description/mesh/XL430.dae"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin rpy="1.57079632679 3.14159265359 0" xyz="0 0.018 0.0"/>
+      <geometry>
+        <mesh filename="package://swerve_driver_description/mesh/XL430.dae"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="8.2573504e-01"/>
+      <inertia ixx="2.2124416e-03" ixy="-1.2294101e-05" ixz="3.4938785e-05"
+               iyy="2.1193702e-03" iyz="-5.0120904e-06"
+               izz="2.0064271e-03" />
+    </inertial>
+  </link>
+  <joint name="r_f_drive" type="continuous">
+    <parent link="r_f_xl430_drive"/>
+    <child link="r_f_wheel"/>
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <axis xyz="0 -1 0"/>
+  </joint>
+  <link name="r_f_wheel">
+    <visual>
+      <origin rpy="0 0 3.14159265359" xyz="0 -0.01 0"/>
+      <geometry>
+        <mesh filename="package://swerve_driver_description/mesh/TB3_WHEEL.dae"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin rpy="0 0 3.14159265359" xyz="0 -0.01 0"/>
+      <geometry>
+        <mesh filename="package://swerve_driver_description/mesh/TB3_WHEEL.dae"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="8.2573504e-01"/>
+      <inertia ixx="2.2124416e-03" ixy="-1.2294101e-05" ixz="3.4938785e-05"
+               iyy="2.1193702e-03" iyz="-5.0120904e-06"
+               izz="2.0064271e-03" />
+    </inertial>
+  </link>
+</robot>
